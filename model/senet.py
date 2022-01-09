@@ -191,102 +191,100 @@ class ResNet(nn.Module):
         parameter = [(400, 160), (512, 64), (512, 128), (1024, 64), (1024, 128), (1024, 256),
                       (2048, 128),  (2048, 512),(1724, 130),(2048, 64)]#la se34 11
         stft1 = STFT(
-            filter_length=parameter[0][0],
-        
+            filter_length=parameter[0][0],  
             hop_length=parameter[0][1],
             win_length=parameter[0][0],
             window=window
         )
+        
         stft2 = STFT(
             filter_length=parameter[1][0],
-        
             hop_length=parameter[1][1],
             win_length=parameter[1][0],
             window=window
         )
+        
         stft3 = STFT(
             filter_length=parameter[2][0],
-        
             hop_length=parameter[2][1],
             win_length=parameter[2][0],
             window=window
         )
+        
         stft4 = STFT(
             filter_length=parameter[3][0],
-
             hop_length=parameter[3][1],
             win_length=parameter[3][0],
             window=window
         )
+        
         stft5 = STFT(
             filter_length=parameter[4][0],
-
             hop_length=parameter[4][1],
             win_length=parameter[4][0],
             window=window
         )
-        stft6 = STFT(
+      
+    stft6 = STFT(
             filter_length=parameter[5][0],
-        
             hop_length=parameter[5][1],
             win_length=parameter[5][0],
             window=window
         )
+    
         stft7 = STFT(
             filter_length=parameter[6][0],
-
             hop_length=parameter[6][1],
             win_length=parameter[6][0],
             window=window
         )
+        
         stft8 = STFT(
             filter_length=parameter[7][0],
-
             hop_length=parameter[7][1],
             win_length=parameter[7][0],
             window=window
         )
+        
         stft9 = STFT(
             filter_length=parameter[8][0],
-        
             hop_length=parameter[8][1],
             win_length=parameter[8][0],
             window=window
         )
+        
         stft10 = STFT(
             filter_length=parameter[9][0],
-        
             hop_length=parameter[9][1],
             win_length=parameter[9][0],
             window=window
         )
+        
         stft11 = STFT(
             filter_length=parameter[10][0],
-
             hop_length=parameter[10][1],
             win_length=parameter[10][0],
             window=window
         )
-        stft12 = STFT(
+       
+    stft12 = STFT(
             filter_length=parameter[11][0],
-
             hop_length=parameter[11][1],
             win_length=parameter[11][0],
             window=window
         )
+       
         stft13 = STFT(
             filter_length=parameter[12][0],
-
             hop_length=parameter[12][1],
             win_length=parameter[12][0],
             window=window
         )
 
-        # print(parameter[0][0])
+        
         return stft1, stft2, stft3, stft4, stft5, stft6, stft7, stft8, stft9, stft10,stft11,stft12,stft13
 #         return stft4, stft5,stft7,stft8,stft11,stft12,stft13
     def forward(self, x, eval=False):
-        #print(x.size())
 
         x1,_ = self.stft[0].transform(x)
         x2, _ = self.stft[1].transform(x)
@@ -302,10 +300,8 @@ class ResNet(nn.Module):
         x12, _ = self.stft[11].transform(x)
         x13, _ = self.stft[12].transform(x)
 
-
         x1 = x1.permute(0, 2, 1).unsqueeze(1)
-        x2 = x2.permute(0, 2, 1).unsqueeze(1)
-        # print(x2.size())
+        x2 = x2.permute(0, 2, 1).unsqueeze(1)    
         x3 = x3.permute(0, 2, 1).unsqueeze(1)
         x4 = x4.permute(0, 2, 1).unsqueeze(1)
         x5 = x5.permute(0, 2, 1).unsqueeze(1)
