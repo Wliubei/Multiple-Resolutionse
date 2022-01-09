@@ -51,7 +51,15 @@ class  Resolution_ attention(nn.Module):
         y = self.avg_pool(x).view(b, c)
         y = self.fc(y).view(b, c, 1, 1)
         y = y.view(b, c, 1, 1)
-        # k = y.view(b, c).cpu().data.numpy()
+        if eval:
+            k = y.view(b, c).cpu().data.numpy()
+            sum_col_list1 = []
+            for i in range(len(k[0])):
+                count = 0
+                for j in range(len(k)):
+                    count += k[j][i]
+                # count = count//len(k[1])
+                sum_col_list1.append(count)
         return x * y.expand_as(x)
 
 class SEBasicBlock(nn.Module):
