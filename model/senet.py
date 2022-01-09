@@ -51,6 +51,7 @@ class  Resolution_ attention(nn.Module):
         y = self.avg_pool(x).view(b, c)
         y = self.fc(y).view(b, c, 1, 1)
         y = y.view(b, c, 1, 1)
+        # The index of the resolution is sorted according to the contribution value
         if eval:
             k = y.view(b, c).cpu().data.numpy()
             sum_col_list1 = []
@@ -60,7 +61,7 @@ class  Resolution_ attention(nn.Module):
                     count += k[j][i]
                 # count = count//len(k[1])
                 sum_col_list1.append(count)
-             # The index of the resolution is sorted according to the contribution value
+             
             Indexes = sorted(range(len(sum_col_list1)), key=lambda k: sum_col_list1[k])
             sum_col_list1.sort()
             time_gap_list = [sum_col_list1[i + 1] - sum_col_list1[i] for i in range(len(sum_col_list1) - 1)]
@@ -142,13 +143,14 @@ class SEBottleneck(nn.Module):
 
 class ResNet(nn.Module):
     """ basic ResNet class: https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py """
-    def __init__(self, block, layers,  screen, High_contribution=[],resolution=13,channels=[16, 16, 32, 64, 128], num_classes=2, focal_loss=False):
+    def __init__(self, block, layers,  screen, High_contribution=[],Full=[],resolution=13,channels=[16, 16, 32, 64, 128], num_classes=2, focal_loss=False):
         
         self.inplanes = channels[0]
         self.focal_loss = focal_loss 
         self.resolution= resolution
         self.High_contribution= High_contribution
         self.screen=screen
+        self.full=Full
         super(ResNet, self).__init__()
         
         self.stft = self._prepare_network(window='blackman')#Online feature extraction
@@ -202,12 +204,8 @@ class ResNet(nn.Module):
         return super(ResNet, self).__str__() + '\nTrainable parameters: {}'.format(params)
 
     def _prepare_network(self,  window='blackman'):
-        # parameter = [(512, 128), (1024, 256),(1724, 130)]#la choiced
-     
-        # parameter = [(288, 96), (400, 160), (480, 120), (512, 64), (512, 128), (1024, 64), (1024, 128), (1024, 256),  (2048, 128), (2048, 256), (1724, 130), (2048, 512), (2048, 64)]#pa50,13
-       
-        parameter = [(400, 160), (512, 64), (512, 128), (1024, 64), (1024, 128), (1024, 256),
-                      (2048, 128),  (2048, 512),(1724, 130),(2048, 64)]#la se34 11
+        
+        parameter =self.full
         stft =[]
         if self.screen:
             llen = len(parameter)
