@@ -142,16 +142,19 @@ class SEBottleneck(nn.Module):
 
 class ResNet(nn.Module):
     """ basic ResNet class: https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py """
-    def __init__(self, block, layers,  resolution=13,channels=[16, 16, 32, 64, 128], num_classes=2, focal_loss=False):
+    def __init__(self, block, layers,  screen, High_contribution=[],resolution=13,channels=[16, 16, 32, 64, 128], num_classes=2, focal_loss=False):
         
         self.inplanes = channels[0]
         self.focal_loss = focal_loss 
         self.resolution= resolution
+        self.High_contribution= High_contribution
+        self.screen=screen
         super(ResNet, self).__init__()
         
         self.stft = self._prepare_network(window='blackman')#Online feature extraction
-        
-        self.Resolution_ attention = Resolution_ attention(channel=resolution, reduction=resolution//2)#Resolution weight attention
+        #Resolution weight attention
+        if screen:
+            self.Resolution_ attention = Resolution_ attention(channel=resolution, reduction=resolution//2)
         
         self.conv1 = nn.Conv2d(resolution, channels[0], kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1 = nn.BatchNorm2d(channels[0])
@@ -206,15 +209,29 @@ class ResNet(nn.Module):
         parameter = [(400, 160), (512, 64), (512, 128), (1024, 64), (1024, 128), (1024, 256),
                       (2048, 128),  (2048, 512),(1724, 130),(2048, 64)]#la se34 11
         stft =[]
-        llen = len(parameter)
-         for i in range(0,llen) :
-             stf= STFT(
+        if self.screen:
+            llen = len(parameter)
+            for i in range(0, llen):
+                fft = STFT(
                     filter_length=parameter[i][0],
+
                     hop_length=parameter[i][1],
                     win_length=parameter[i][0],
                     window=window
-                 )
-            stft.append(stf)
+                )
+                stft.append(fft)
+        else:
+            llen = len(self.High_contribution)
+            for i in range(0, llen):
+                j = self.High_contribution[i]
+                fft = STFT(
+                    filter_length=parameter[j][0],
+
+                    hop_length=parameter[j][1],
+                    win_length=parameter[j][0],
+                    window=window
+                )
+                stft.append(fft)
         return stft
 
     def forward(self, x, eval=False):
@@ -229,7 +246,8 @@ class ResNet(nn.Module):
 
         x = torch.cat(k, 1)
         # print(x1.size())
-        x = self.Resolution_ attention(x)
+        if self.screen:
+            x = self.Resolution_ attention(x)
         # print(x1)
         x = self.conv1(x)
         # print(x.size())
