@@ -14,7 +14,7 @@ In the configuration file, you can set the number of resolutions and whether to 
 High_contributionn represents the index of the resolution that has been filtered.
 "Full" stands for all resolutions.
 - When no screening is performed, screen = true, training is performed.After the first training, run eval.py.The index of the high resolution with the selected weight will be saved in the HighContribution.txt.
-- Copy the index in HighContribution.txt to "high_contribution" in the configuration file.screen = false.Use the optimal resolution combination to train again
+- Copy the index in HighContribution.txt to "high_contribution" in the configuration file.screen = false.Use the optimal resolution combination to train again.Resolution is set to the number of resolutions filtered out.
 
 ```
 "arch": {
