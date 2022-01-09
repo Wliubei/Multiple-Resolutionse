@@ -1,0 +1,67 @@
+{
+    "name": "LA_SENet34_LPSseg_uf_segduofen",
+    "n_gpu": 1,
+
+    "arch": {
+        "type": "se_resnet34",
+        "args": {
+            "resolution": 13,
+            "High_contribution": [12, 10, 4, 11, 3, 7, 6],
+            "screen": true
+        }
+    },
+    "train_data_loader": {
+        "type": "SpoofDataLoaderBalanceSample",
+        "args":{
+            "scp_file": "/home/ubuntu/Multiresolution/LA/train_protocol.scp",
+            "data_dir": "/home/ubuntu/Multiresolution/LA/ASVspoof2019_LA_train/flac",
+            "batch_size": 32,
+            "shuffle": true,
+            "validation_split": 0.0,
+            "num_workers": 8
+        }
+    },
+    "dev_data_loader": {
+        "type": "SpoofDataLoaderBalanceSample",
+        "args":{
+            "scp_file": "/home/ubuntu/Multiresolution/LA/dev_protocol.scp",
+            "data_dir": "/home/ubuntu/Multiresolution/LA/ASVspoof2019_LA_dev/flac",
+            "batch_size": 32,
+            "shuffle": true,
+            "validation_split": 0.0,
+            "num_workers": 8
+        }
+    },
+    "optimizer": {
+        "type": "Adam",
+        "args":{
+            "lr": 0.001,
+            "betas": [0.9, 0.999],
+            "eps": 1e-9,
+            "weight_decay": 1e-3,
+            "amsgrad": true
+        }
+    },
+    "loss": {
+        "type": "NllLoss",
+        "args": {}
+    },
+    
+    "metrics": [
+        "accuracy"
+    ],
+    "lr_scheduler": null,
+    "trainer": {
+        "epochs": 100,
+
+        "save_dir": "_saved/",
+        "save_period": 1,
+        "verbosity": 2,
+        
+        "monitor": "max val_accuracy",
+        "early_stop": 10,
+        
+        "tensorboardX": false
+    }
+
+}
