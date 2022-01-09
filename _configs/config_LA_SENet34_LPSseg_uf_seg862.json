@@ -4,7 +4,9 @@
 
     "arch": {
         "type": "se_resnet34",
-        "args": {}
+        "args": {
+            "resolution":13
+        }
     },
     "train_data_loader": {
         "type": "SpoofDataLoaderBalanceSample",
