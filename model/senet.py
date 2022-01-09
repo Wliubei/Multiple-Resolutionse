@@ -52,16 +52,6 @@ class SELayer1(nn.Module):
         y = self.fc(y).view(b, c, 1, 1)
         y = y.view(b, c, 1, 1)
         # k = y.view(b, c).cpu().data.numpy()
-        # plt.figure(figsize=(6, 6))
-        # plt.subplot(211)
-        # plt.title('Contribution of different resolutions to the model')
-        # plt.xlabel('resolutions')
-        # plt.ylabel('batch_size')
-        # plt.imshow(k, aspect='auto', origin='lower', cmap="YlGnBu_r")
-        # plt.savefig('resolutions.png')
-        # plt.show()
-        # plt.plot(np.sort(np.sum(k,axis=0)))
-        # plt.show()
         return x * y.expand_as(x)
 
 class SEBasicBlock(nn.Module):
@@ -143,10 +133,12 @@ class ResNet(nn.Module):
         self.focal_loss = focal_loss 
 
         super(ResNet, self).__init__()
-        self.stft = self._prepare_network(window='blackman')
         
-        self.se1 = SELayer1(channel=7, reduction=7)#权重
-        self.conv1 = nn.Conv2d(7, channels[0], kernel_size=7, stride=2, padding=3, bias=False)
+        self.stft = self._prepare_network(window='blackman')#Online feature extraction
+        
+        self.se1 = SELayer1(channel=13, reduction=5)#Resolution weight attention
+        
+        self.conv1 = nn.Conv2d(13, channels[0], kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1 = nn.BatchNorm2d(channels[0])
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -193,37 +185,32 @@ class ResNet(nn.Module):
 
     def _prepare_network(self,  window='blackman'):
         # parameter = [(512, 128), (1024, 256),(1724, 130)]#lazixian
-        # parameter = [(1724, 130), (2048, 512)]#lazhigao34
-
-        # parameter = [(512, 64), (512, 128), (1724, 130)]pa 11
+     
         # parameter = [(288, 96), (400, 160), (480, 120), (512, 64), (512, 128), (1024, 64), (1024, 128), (1024, 256),  (2048, 128), (2048, 256), (1724, 130), (2048, 512), (2048, 64)]#pa50,13
-        # parameter = [(480, 120), (1024, 64), (2048, 64)]#$plxuan
-        # parameter = [ (1024, 128), (2048, 128), (2048, 256)]#PAZHIGAO
-        parameter = [(128,32),(256,64), (400, 160),(512, 64), (512, 128), (1024, 64), (1024, 128), (1024, 256), (2048, 128), (2048, 256), (1724, 130),
-                     (2048, 512), (2048, 64)]
-        # parameter = [(400, 160), (512, 64), (512, 128), (1024, 64), (1024, 128), (1024, 256),
-        #               (2048, 128),  (2048, 512),(1724, 130),(2048, 64)]
-        # stft1 = STFT(
-        #     filter_length=parameter[0][0],
-        #
-        #     hop_length=parameter[0][1],
-        #     win_length=parameter[0][0],
-        #     window=window
-        # )
-        # stft2 = STFT(
-        #     filter_length=parameter[1][0],
-        #
-        #     hop_length=parameter[1][1],
-        #     win_length=parameter[1][0],
-        #     window=window
-        # )
-        # stft3 = STFT(
-        #     filter_length=parameter[2][0],
-        #
-        #     hop_length=parameter[2][1],
-        #     win_length=parameter[2][0],
-        #     window=window
-        # )
+       
+        parameter = [(400, 160), (512, 64), (512, 128), (1024, 64), (1024, 128), (1024, 256),
+                      (2048, 128),  (2048, 512),(1724, 130),(2048, 64)]#la se34 11
+        stft1 = STFT(
+            filter_length=parameter[0][0],
+        
+            hop_length=parameter[0][1],
+            win_length=parameter[0][0],
+            window=window
+        )
+        stft2 = STFT(
+            filter_length=parameter[1][0],
+        
+            hop_length=parameter[1][1],
+            win_length=parameter[1][0],
+            window=window
+        )
+        stft3 = STFT(
+            filter_length=parameter[2][0],
+        
+            hop_length=parameter[2][1],
+            win_length=parameter[2][0],
+            window=window
+        )
         stft4 = STFT(
             filter_length=parameter[3][0],
 
@@ -238,13 +225,13 @@ class ResNet(nn.Module):
             win_length=parameter[4][0],
             window=window
         )
-        # stft6 = STFT(
-        #     filter_length=parameter[5][0],
-        #
-        #     hop_length=parameter[5][1],
-        #     win_length=parameter[5][0],
-        #     window=window
-        # )
+        stft6 = STFT(
+            filter_length=parameter[5][0],
+        
+            hop_length=parameter[5][1],
+            win_length=parameter[5][0],
+            window=window
+        )
         stft7 = STFT(
             filter_length=parameter[6][0],
 
@@ -259,20 +246,20 @@ class ResNet(nn.Module):
             win_length=parameter[7][0],
             window=window
         )
-        # stft9 = STFT(
-        #     filter_length=parameter[8][0],
-        #
-        #     hop_length=parameter[8][1],
-        #     win_length=parameter[8][0],
-        #     window=window
-        # )
-        # stft10 = STFT(
-        #     filter_length=parameter[9][0],
-        #
-        #     hop_length=parameter[9][1],
-        #     win_length=parameter[9][0],
-        #     window=window
-        # )
+        stft9 = STFT(
+            filter_length=parameter[8][0],
+        
+            hop_length=parameter[8][1],
+            win_length=parameter[8][0],
+            window=window
+        )
+        stft10 = STFT(
+            filter_length=parameter[9][0],
+        
+            hop_length=parameter[9][1],
+            win_length=parameter[9][0],
+            window=window
+        )
         stft11 = STFT(
             filter_length=parameter[10][0],
 
@@ -296,8 +283,8 @@ class ResNet(nn.Module):
         )
 
         # print(parameter[0][0])
-        # return stft1, stft2, stft3, stft4, stft5, stft6, stft7, stft8, stft9, stft10,stft11,stft12,stft13
-        return stft4, stft5,stft7,stft8,stft11,stft12,stft13
+        return stft1, stft2, stft3, stft4, stft5, stft6, stft7, stft8, stft9, stft10,stft11,stft12,stft13
+#         return stft4, stft5,stft7,stft8,stft11,stft12,stft13
     def forward(self, x, eval=False):
         #print(x.size())
 
@@ -308,12 +295,12 @@ class ResNet(nn.Module):
         x5, _ = self.stft[4].transform(x)
         x6, _ = self.stft[5].transform(x)
         x7, _ = self.stft[6].transform(x)
-        # x8, _ = self.stft[7].transform(x)
-        # x9, _ = self.stft[8].transform(x)
-        # x10, _ = self.stft[9].transform(x)
-        # x11, _ = self.stft[10].transform(x)
-        # x12, _ = self.stft[11].transform(x)
-        # x13, _ = self.stft[12].transform(x)
+        x8, _ = self.stft[7].transform(x)
+        x9, _ = self.stft[8].transform(x)
+        x10, _ = self.stft[9].transform(x)
+        x11, _ = self.stft[10].transform(x)
+        x12, _ = self.stft[11].transform(x)
+        x13, _ = self.stft[12].transform(x)
 
 
         x1 = x1.permute(0, 2, 1).unsqueeze(1)
@@ -324,12 +311,12 @@ class ResNet(nn.Module):
         x5 = x5.permute(0, 2, 1).unsqueeze(1)
         x6 = x6.permute(0, 2, 1).unsqueeze(1)
         x7 = x7.permute(0, 2, 1).unsqueeze(1)
-        # x8 = x8.permute(0, 2, 1).unsqueeze(1)
-        # x9 = x9.permute(0, 2, 1).unsqueeze(1)
-        # x10 = x10.permute(0, 2, 1).unsqueeze(1)
-        # x11 = x11.permute(0, 2, 1).unsqueeze(1)
-        # x12 = x12.permute(0, 2, 1).unsqueeze(1)
-        # x13 = x13.permute(0, 2, 1).unsqueeze(1)
+        x8 = x8.permute(0, 2, 1).unsqueeze(1)
+        x9 = x9.permute(0, 2, 1).unsqueeze(1)
+        x10 = x10.permute(0, 2, 1).unsqueeze(1)
+        x11 = x11.permute(0, 2, 1).unsqueeze(1)
+        x12 = x12.permute(0, 2, 1).unsqueeze(1)
+        x13 = x13.permute(0, 2, 1).unsqueeze(1)
 
         # print(x11.size())
         # m= nn.Upsample()
@@ -340,17 +327,17 @@ class ResNet(nn.Module):
         x4 = m(x4)
         x5 = m(x5)
         x6 = m(x6)
-        # x7 = m(x7)
-        # x8 = m(x8)
-        # x9 = m(x9)
-        # x10 = m(x10)
-        # x11 = m(x11)
-        # x12 = m(x12)
+        x7 = m(x7)
+        x8 = m(x8)
+        x9 = m(x9)
+        x10 = m(x10)
+        x11 = m(x11)
+        x12 = m(x12)
 
-        # x1= torch.cat((x1, x2, x3, x4, x5, x6, x7, x8, x9, x10,x11,x12,x13), 1)
-        x1 = torch.cat((x1, x2, x3, x4, x5, x6, x7), 1)
+        x= torch.cat((x1, x2, x3, x4, x5, x6, x7, x8, x9, x10,x11,x12,x13), 1)
+#         x1 = torch.cat((x1, x2, x3, x4, x5, x6, x7), 1)
         # print(x1.size())
-        x = self.se1(x1)
+        x = self.se1(x)
         # print(x1)
         x = self.conv1(x)
         # print(x.size())
