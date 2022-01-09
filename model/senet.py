@@ -35,7 +35,7 @@ class SELayer(nn.Module):
         # print(y)
         return x * y.expand_as(x)
 
-class SELayer1(nn.Module):
+class  Resolution_ attention(nn.Module):
     def __init__(self, channel, reduction=3):
         super(SELayer1, self).__init__()
         self.avg_pool = nn.AdaptiveAvgPool2d(1) # F_squeeze
@@ -136,7 +136,7 @@ class ResNet(nn.Module):
         
         self.stft = self._prepare_network(window='blackman')#Online feature extraction
         
-        self.se1 = SELayer1(channel=13, reduction=5)#Resolution weight attention
+        self.se1 = Resolution_ attention(channel=13, reduction=5)#Resolution weight attention
         
         self.conv1 = nn.Conv2d(13, channels[0], kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1 = nn.BatchNorm2d(channels[0])
