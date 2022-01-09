@@ -127,16 +127,16 @@ class SEBottleneck(nn.Module):
 
 class ResNet(nn.Module):
     """ basic ResNet class: https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py """
-    def __init__(self, block, layers, channels=[16, 16, 32, 64, 128], num_classes=2, focal_loss=False):
+    def __init__(self, block, layers,  resolution=13,channels=[16, 16, 32, 64, 128], num_classes=2, focal_loss=False):
         
         self.inplanes = channels[0]
         self.focal_loss = focal_loss 
-
+        self.resolution= resolution
         super(ResNet, self).__init__()
         
         self.stft = self._prepare_network(window='blackman')#Online feature extraction
         
-        self.se1 = Resolution_ attention(channel=13, reduction=5)#Resolution weight attention
+        self.Resolution_ attention = Resolution_ attention(channel=resolution, reduction=resolution//2)#Resolution weight attention
         
         self.conv1 = nn.Conv2d(13, channels[0], kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1 = nn.BatchNorm2d(channels[0])
@@ -215,7 +215,7 @@ class ResNet(nn.Module):
 
         x = torch.cat(k, 1)
         # print(x1.size())
-        x = self.se1(x)
+        x = self.Resolution_ attention(x)
         # print(x1)
         x = self.conv1(x)
         # print(x.size())
