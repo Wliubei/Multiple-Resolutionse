@@ -24,15 +24,6 @@ torch.backends.cudnn.benchmark = True
 def main(config, resume, protocol_file, asv_score_file):
     logger = config.get_logger('evaluation')
 
-    # setup data_loader instances
-    # data_loader = getattr(module_data, config['dev_data_loader']['type'])(
-    #     config['dev_data_loader']['args']['scp_file'],
-    #     config['dev_data_loader']['args']['data_dir'],
-    #     batch_size=32,
-    #     shuffle=False,
-    #     validation_split=0.0,
-    #     num_workers=2
-    # )
 
     data_loader = getattr(module_data, config['dev_data_loader']['type'])(
         # "/data/dataset/DS_10283_3336/eval_protocol.scp",
