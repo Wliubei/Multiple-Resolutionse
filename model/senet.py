@@ -60,6 +60,13 @@ class  Resolution_ attention(nn.Module):
                     count += k[j][i]
                 # count = count//len(k[1])
                 sum_col_list1.append(count)
+             # The index of the resolution is sorted according to the contribution value
+            Indexes = sorted(range(len(sum_col_list1)), key=lambda k: sum_col_list1[k])
+            sum_col_list1.sort()
+            time_gap_list = [sum_col_list1[i + 1] - sum_col_list1[i] for i in range(len(sum_col_list1) - 1)]
+            m  = sorted(range(len(time_gap_list)), key=lambda k: time_gap_list[k])
+            m=m[-1]+1
+            HighContribution=Indexes[m:]
         return x * y.expand_as(x)
 
 class SEBasicBlock(nn.Module):
