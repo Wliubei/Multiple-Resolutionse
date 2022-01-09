@@ -138,7 +138,7 @@ class ResNet(nn.Module):
         
         self.Resolution_ attention = Resolution_ attention(channel=resolution, reduction=resolution//2)#Resolution weight attention
         
-        self.conv1 = nn.Conv2d(13, channels[0], kernel_size=7, stride=2, padding=3, bias=False)
+        self.conv1 = nn.Conv2d(resolution, channels[0], kernel_size=7, stride=2, padding=3, bias=False)
         self.bn1 = nn.BatchNorm2d(channels[0])
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -191,18 +191,17 @@ class ResNet(nn.Module):
         parameter = [(400, 160), (512, 64), (512, 128), (1024, 64), (1024, 128), (1024, 256),
                       (2048, 128),  (2048, 512),(1724, 130),(2048, 64)]#la se34 11
         stft =[]
-    llen = len(parameter)
-    for i in range(0,llen) :
-        stf= STFT(
-            filter_length=parameter[i][0],
+        llen = len(parameter)
+         for i in range(0,llen) :
+             stf= STFT(
+                    filter_length=parameter[i][0],
+                    hop_length=parameter[i][1],
+                    win_length=parameter[i][0],
+                    window=window
+                 )
+            stft.append(stf)
+        return stft
 
-            hop_length=parameter[i][1],
-            win_length=parameter[i][0],
-            window=window
-            )
-        stft.append(stf)
-    return stft
-#         return stft4, stft5,stft7,stft8,stft11,stft12,stft13
     def forward(self, x, eval=False):
 
        m = nn.AdaptiveMaxPool2d((1218, 1025))
