@@ -1,4 +1,4 @@
-# Multiple-Resolutionse
+# A MULTI-RESOLUTION FRONT-END FOR END-TO-END SPEECH ANTI-SPOOFING
 ### Getting started
 `requirements.txt` must be installed for execution. We state our experiment environment for those who prefer to simulate as similar as possible. 
 - Installing dependencies
@@ -9,7 +9,7 @@ pip install -r requirements.txt
 We train/validate/evaluate Multiple-Resolutions using the ASVspoof 2019  dataset .
 (Alternative) Manual preparation is available via 
 - ASVspoof2019 dataset: https://datashare.ed.ac.uk/handle/10283/3336
-
+### train and eval
 In the configuration file, you can set the number of resolutions and whether to filter according to the parameters of the model.
 High_contributionn represents the index of the resolution that has been filtered.
 "Full" stands for all resolutions.
