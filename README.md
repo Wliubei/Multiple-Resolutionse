@@ -6,15 +6,16 @@
 pip install -r requirements.txt
 ```
 ### Data preparation
-We train/validate/evaluate Multiple-Resolutions using the ASVspoof 2019  dataset .
+We train/validate/evaluate Multiple-Resolutions using the ASVspoof 2019  dataset.
 (Alternative) Manual preparation is available via 
 - ASVspoof2019 dataset: https://datashare.ed.ac.uk/handle/10283/3336
-### Train and eval
-In the configuration file, you can set the number of resolutions and whether to filter according to the parameters of the model.
-High_contributionn represents the index of the resolution that has been filtered.
+### Trainning and evaluation
+In the configuration file, you can set the number of resolutions and Whether to choose the resolution.
+"High_contributionn" represents the index of the resolution that has been filtered.
 "Full" stands for all resolutions.
-- When filtering resolution is required, we set "screen = true", training is performed.After the first training, run eval.py.The first time you run the eval.py file, the resolution subdivision mechanism is automatically executed.The index of the high resolution with the selected weight will be saved in the HighContribution.txt.
-- Copy the index in HighContribution.txt to "high_contribution" in the configuration file.Set "screen = false".Use the optimal resolution combination to train again.Resolution is set to the number of resolutions filtered out.
+"screen" Represents whether the model filters the resolution.
+- When high-weight resolutions need to be filtered, we set "screen = true" and train. After the first training, run eval.py. The resolution subdivision mechanism is automatically executed when the eval.py file is run for the first time. The index of the high resolution with the selected weight will be saved in the HighContribution.txt.
+- Copy the index from HighContribution.txt to "High_contribution" in the configuration file. Set "screen = false". Train again using the optimal resolution combination. Resolution is set to the number of resolutions filtered out.
 
 ```
 "arch": {
