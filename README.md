@@ -13,8 +13,8 @@ We train/validate/evaluate Multiple-Resolutions using the ASVspoof 2019  dataset
 In the configuration file, you can set the number of resolutions and whether to filter according to the parameters of the model.
 High_contributionn represents the index of the resolution that has been filtered.
 "Full" stands for all resolutions.
-- When no screening is performed, screen = true, training is performed.After the first training, run eval.py.The index of the high resolution with the selected weight will be saved in the HighContribution.txt.
-- Copy the index in HighContribution.txt to "high_contribution" in the configuration file.screen = false.Use the optimal resolution combination to train again.Resolution is set to the number of resolutions filtered out.
+- When filtering resolution is required, we set "screen = true", training is performed.After the first training, run eval.py.The first time you run the eval.py file, the resolution subdivision mechanism is automatically executed.The index of the high resolution with the selected weight will be saved in the HighContribution.txt.
+- Copy the index in HighContribution.txt to "high_contribution" in the configuration file.Set "screen = false".Use the optimal resolution combination to train again.Resolution is set to the number of resolutions filtered out.
 
 ```
 "arch": {
