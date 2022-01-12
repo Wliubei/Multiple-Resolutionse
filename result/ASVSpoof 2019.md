@@ -19,11 +19,13 @@ The results on ASVSpoof 2019 are reported in Table 1.
 |  | Top-3 | 5.06  | 18.32 |    
 | Proposed | Full | 6.64  | 18.58 |   
 |    | Refined | 7.56  | 18.07 |   
+> 
 [1] Cheng-I Lai, Nanxin Chen, Jesus Villalba, and Najim De- ´ hak, “ASSERT: Anti-Spoofing with Squeeze-Excitation and Residual Networks,” in 2019, ISCA, 2019, pp. 1013–1017
 [2] Galina Lavrentyeva, Sergey Novoselov, Andzhukaev Tseren, Marina Volkova, Artem Gorlanov, and Alexandr Kozlov, “STC Antispooﬁng Systems for the ASVspoof2019 Challenge,” in Proc. Interspeech,2019, pp. 1033–1037
 [3] Wang, Q.; Lee, K.A.; Koshinaka, T. “Using multi-resolution feature maps with convolutional neural networks for anti-spooﬁng in ASV,” in Proceedings of the Odyssey Speaker and Language Recognition Workshop,Tokyo, Japan, 1–5 November 2020; pp. 138–142.
 #Statistical Significance
 We have run the experiments on ASVSpoof 2019 LA for 5 times. The results are given in Table 2.
+
 | Experiment ID | Refined| 1724/130 | 
 | :------: | :-----: | :------: |
 | 1 | 3.92 | 6.59 |
