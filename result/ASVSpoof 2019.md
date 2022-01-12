@@ -4,22 +4,22 @@ In this section, we consider 3 window lengths (512, 1024, and 2048) and 4 frame 
 The results on ASVSpoof 2019 are reported in Table 1.
 |    | Resolution(window/shift) | LA EER(Eval)| PA EER(Eval) | 
 | :------: | :-----: | :------: | :-------: | 
-|     | 512 / 64 | 14.14 | 33.08 |      
-|  | 512 /128 | 36.03 | 36.17 |       
-|  | 1024 / 64 | 38.60 | 37.32 |       
-|  |1024 /128 | 6.86  | 27.60 |      
-|  | 1024 /256 | **3.53**  | 25.55 |  
-|  | 2048 / 64 | 13.44 | 28.50 |     
-|  | 2048 /128 | 40.45 | 37.98 |     
-| Hand Selected Resolution | 2048 /256 | 42.04 | 39.59 |    
-|  | 2048 /512 | 7.61  | 27.49 |    
-|  | 400 /160 | 4.82  | 20.30 |    
-|  | 1724 /130 | 7.15  | 19.99 |    
-|  | 288 / 96 | 4.99  | 18.05 |     
-|  | 480 /120 | 6.63  | 18.58 |     
-|  | Top-3 | 5.06  | 18.32 |    
-| Proposed | Full | 6.64  | 18.58 |   
-|    | Refined | 7.56  | 18.07 |   
+|     | 512 / 64 | 10.60 | 4.06 |      
+|  | 512 /128 | 11.56 | 3.40 |       
+|  | 1024 / 64 | 16.72 | 2.89 |       
+|  |1024 /128 | 8.15  |2.33 |      
+|  | 1024 /256 | 11.72  | 2.76 |  
+|  | 2048 / 64 | 5.72 | 1.79 |     
+|  | 2048 /128 | 9.88 | 2.20 |     
+| Hand Selected Resolution | 2048 /256 | 4.67 | 2.53 |    
+|  | 2048 /512 | 5.54  | 2.69 |    
+|  | 400 /160 | 9.24  | 3.75 |    
+|  | 1724 /130 | 5.38  | 2.10 |    
+|  | 288 / 96 |    | 3.91 |     
+|  | 480 /120 |    | 3.09 |     
+|  | Top-3 | 10.21  | 2.66 |    
+| Proposed | Full | 5.43  | 1.07 |   
+|    | Refined | 3.67  | 1.24 |   
 > 
 [1] Cheng-I Lai, Nanxin Chen, Jesus Villalba, and Najim De- ´ hak, “ASSERT: Anti-Spoofing with Squeeze-Excitation and Residual Networks,” in 2019, ISCA, 2019, pp. 1013–1017
 [2] Galina Lavrentyeva, Sergey Novoselov, Andzhukaev Tseren, Marina Volkova, Artem Gorlanov, and Alexandr Kozlov, “STC Antispooﬁng Systems for the ASVspoof2019 Challenge,” in Proc. Interspeech,2019, pp. 1033–1037
