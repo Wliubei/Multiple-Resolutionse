@@ -11,10 +11,10 @@ The generalization ability of the proposed multi-resolution approach is also eva
 |  | 2048 /128 | 22.58 | 0 |     
 | Hand Selected Resolution | 2048 /256 | 22.89 | 0 |    
 |  | 2048 /512 | 21.89  | 0 |    
-|  | 400 /160 | 9.24  | 3.75 |    
-|  | 1724 /130 | 5.38  | 2.10 |    
+|  | 400 /160 | 21.69  | 0 |    
+|  | 1724 /130 | 22.91  | 0.21 |    
 |  | 288 / 96 | 22.04 | 0 |     
 |  | 480 /120 |  21.69  | 0.99 |     
-|  | Top-3 | 10.21  | 2.66 |    
-| Proposed | Full | 5.43  | 1.07 |   
-|    | Refined | 3.67  | 1.24 | 
+|  | Top-3 | 21.74  | - |    
+| Proposed | Full | 21.74  | - |   
+|    | Refined | 20.04  |- | 
